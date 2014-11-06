@@ -96,6 +96,14 @@
 
 #pragma mark uibuttion action
 -(IBAction)takePhoto:(id)sender{
-    [wcameraHelper captureimage];
+    [wcameraHelper captureImage];
+}
+
+-(IBAction)startMoiveRecoding:(id)sender{
+    [wcameraHelper toggleMovieRecording];
+}
+
+-(IBAction)endMoiveRecord:(id)sender{
+    [wcameraHelper stopMoiveRecord];
 }
 @end

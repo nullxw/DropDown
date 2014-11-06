@@ -10,17 +10,15 @@
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 
-@interface WCameraImageHelper : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate>
+@interface WCameraImageHelper : NSObject 
 
-@property (strong, nonatomic) AVCaptureSession *session;
-@property (strong, nonatomic) AVCaptureStillImageOutput *captureOutput;
-@property (strong, nonatomic) UIImage *image;
-@property (assign, nonatomic) UIImageOrientation imageOrientation;
-@property (strong, nonatomic) AVCaptureVideoPreviewLayer *preview;
-@property (nonatomic) dispatch_queue_t sessionQueue; // Communicate with the session and other session objects on this queue.
 
 - (id)initPreView:(UIView*)preview;
-- (void)captureimage;
-@property (nonatomic, getter = isDeviceAuthorized) BOOL deviceAuthorized;
+
+- (void)captureImage;
+- (void)toggleMovieRecording;
+- (void)stopMoiveRecord;
+
+
 
 @end

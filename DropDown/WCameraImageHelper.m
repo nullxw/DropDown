@@ -13,6 +13,17 @@
 #import <ImageIO/ImageIO.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
+@interface WCameraImageHelper()<AVCaptureFileOutputRecordingDelegate>
+@property (strong, nonatomic) AVCaptureSession *session;
+@property (strong, nonatomic) AVCaptureStillImageOutput *captureOutput;
+@property (nonatomic) AVCaptureMovieFileOutput *movieFileOutput;
+@property (strong, nonatomic) UIImage *image;
+@property (assign, nonatomic) UIImageOrientation imageOrientation;
+@property (strong, nonatomic) AVCaptureVideoPreviewLayer *preview;
+@property (nonatomic) dispatch_queue_t sessionQueue; // Communicate with the session and other session objects on this queue.
+@property (nonatomic, getter = isDeviceAuthorized) BOOL deviceAuthorized;
+@end
+
 @implementation WCameraImageHelper
 @synthesize sessionQueue;
 
@@ -23,6 +34,7 @@ static WCameraImageHelper *sharedInstance = nil;
     [self.session stopRunning];
 }
 
+#pragma mark init
 -(id)init{
     if (self = [super init]){
     }
@@ -63,21 +75,43 @@ static WCameraImageHelper *sharedInstance = nil;
     [self setSessionQueue:sessionQueueA];
     
     self.session = [[AVCaptureSession alloc] init];
-    //  设置采集大小
-    self.session.sessionPreset = AVCaptureSessionPresetPhoto;
+    //  设置采集大小,在视频模式下，此行代码会造成崩溃
+//    self.session.sessionPreset = AVCaptureSessionPresetPhoto;
     
     dispatch_async(sessionQueue, ^{
         NSError *error = nil;
         
-        AVCaptureDevice *device = [self frontCamera];
+        
+        //set  input
+        AVCaptureDevice *device = [self backCamera];
         AVCaptureDeviceInput *captureInput = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
         if (!captureInput){
             NSLog(@"Error: %@", error);
             return;
         }
         [self.session addInput:captureInput];
-        
-        
+        //set audioInput
+        AVCaptureDevice *audioDevice = [[AVCaptureDevice devicesWithMediaType:AVMediaTypeAudio] firstObject];
+        AVCaptureDeviceInput *audioDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:audioDevice error:&error];
+        if (error)
+        {
+            NSLog(@"%@", error);
+        }
+        if ([self.session canAddInput:audioDeviceInput])
+        {
+            [self.session addInput:audioDeviceInput];
+        }
+        //set moiveOutput
+        AVCaptureMovieFileOutput *movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
+        if ([self.session canAddOutput:movieFileOutput])
+        {
+            [self.session addOutput:movieFileOutput];
+            AVCaptureConnection *connection = [movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
+            if ([connection isVideoStabilizationSupported])
+                [connection setEnablesVideoStabilizationWhenAvailable:YES];
+            [self setMovieFileOutput:movieFileOutput];
+        }
+        //set imageOutput
         self.captureOutput = [[AVCaptureStillImageOutput alloc] init];
         NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys:AVVideoCodecJPEG,AVVideoCodecKey,nil];
         if ([self.session canAddOutput:self.captureOutput])
@@ -105,8 +139,9 @@ static WCameraImageHelper *sharedInstance = nil;
         [aView.layer addSublayer: self.preview];
 }
 
+#pragma mark Actions
 
--(void)captureimage{
+-(void)captureImage{
     if (_deviceAuthorized==NO) {
         return;
     }
@@ -142,6 +177,42 @@ static WCameraImageHelper *sharedInstance = nil;
     });
 }
 
+- (void)toggleMovieRecording{
+    dispatch_async([self sessionQueue], ^{
+        if (![[self movieFileOutput] isRecording])
+        {
+            
+            if ([[UIDevice currentDevice] isMultitaskingSupported])
+            {
+            }
+            
+            // Start recording to a temporary file.
+            NSString *outputFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[@"movie" stringByAppendingPathExtension:@"mov"]];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:outputFilePath])
+            {
+                [[NSFileManager defaultManager] removeItemAtPath:outputFilePath error:nil];
+            }
+            
+            [self.movieFileOutput startRecordingToOutputFileURL:[NSURL fileURLWithPath:outputFilePath] recordingDelegate:self];
+        }
+        else
+        {
+            [[self movieFileOutput] stopRecording];
+        }
+    });
+}
+-(void)stopMoiveRecord{
+    dispatch_async([self sessionQueue], ^{
+        if (![[self movieFileOutput] isRecording])
+        {
+        }
+        else
+        {
+            [[self movieFileOutput] stopRecording];
+        }
+    });
+}
+#pragma mark get device
 - (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition) position {
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     for (AVCaptureDevice *device in devices) {
@@ -152,10 +223,28 @@ static WCameraImageHelper *sharedInstance = nil;
     return nil;
 }
 
-
 - (AVCaptureDevice *)frontCamera {
     return [self cameraWithPosition:AVCaptureDevicePositionFront];
 }
 
+- (AVCaptureDevice *)backCamera {
+    return [self cameraWithPosition:AVCaptureDevicePositionBack];
+}
+#pragma mark File Output Delegate
+
+- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error
+{
+    NSLog(@"didFinishRecordingToOutputFileAtURL");
+    if (error)
+        NSLog(@"%@", error);
+    
+    [[[ALAssetsLibrary alloc] init] writeVideoAtPathToSavedPhotosAlbum:outputFileURL completionBlock:^(NSURL *assetURL, NSError *error) {
+        if (error)
+            NSLog(@"%@", error);
+        
+        [[NSFileManager defaultManager] removeItemAtURL:outputFileURL error:nil];
+    
+    }];
+}
 
 @end

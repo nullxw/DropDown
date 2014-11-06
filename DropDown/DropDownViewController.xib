@@ -41,9 +41,13 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lJ2-sr-ScG">
                             <rect key="frame" x="103" y="92" width="99" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="拍视频">
+                            <state key="normal" title="按住拍视频">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="endMoiveRecord:" destination="-1" eventType="touchUpInside" id="B1i-wK-ArC"/>
+                                <action selector="startMoiveRecoding:" destination="-1" eventType="touchDown" id="kJL-dm-Epg"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
