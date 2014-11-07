@@ -73,10 +73,10 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat yOffset  = scrollView.contentOffset.y;
     NSLog(@"yOffset===%f",yOffset);
-    NSLog(@"%f",-(yOffset/150));
+    NSLog(@"%f",-(yOffset/110));
 
-    if (yOffset <= -150) {
-        [UIView animateWithDuration:0.8 animations:^{
+    if (yOffset <= -160) {
+        [UIView animateWithDuration:1.0 animations:^{
             _dropDownTableView.frame = CGRectMake(_dropDownTableView.frame.origin.x, 568, _dropDownTableView.frame.size.width, _dropDownTableView.frame.size.height);
         } completion:^(BOOL finished) {
             _cancelButton.hidden=NO;
@@ -84,7 +84,6 @@
             _operationView.hidden=NO;
         }];
     }else{
-        
         [self setLayerOpaticy: -(yOffset/110)];
         [self setLayerStroke:-(yOffset/110)];
     }
