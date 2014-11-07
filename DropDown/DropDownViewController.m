@@ -84,16 +84,30 @@
             _operationView.hidden=NO;
         }];
     }else{
-        [dropDownView animateLayerAtoAlpha:-(yOffset/120)];
-        [dropDownView animateLayerBtoAlpha:-(yOffset/120)];
-        [dropDownView animateToAlphaEnd:-(yOffset/120)];
-        [dropDownView animateLeftTopToStrokeEnd:-(yOffset/120)];
-        [dropDownView animateRightTopToStrokeEnd:-(yOffset/120)];
-        [dropDownView animateLeftBottomToStrokeEnd:-(yOffset/120)];
-        [dropDownView animateRightBottomToStrokeEnd:-(yOffset/120)];
+        
+        [self setLayerOpaticy: -(yOffset/110)];
+        [self setLayerStroke:-(yOffset/110)];
     }
 }
 
+-(void)setLayerOpaticy:(CGFloat)opacity{
+    [dropDownView animateLayerAtoAlpha:opacity];
+    [dropDownView animateLayerBtoAlpha:opacity];
+    [dropDownView animateToAlphaEnd:opacity];
+    
+    [dropDownView animateLeftTopToOpcity:opacity];
+    [dropDownView animateRightTopToOpcity:opacity];
+    [dropDownView animateLeftBottomToOpcity:opacity];
+    [dropDownView animateRightBottomToOpcity:opacity];
+}
+
+-(void)setLayerStroke:(CGFloat)stoked{
+    
+    [dropDownView animateLeftTopToStrokeEnd:stoked];
+    [dropDownView animateRightTopToStrokeEnd:stoked];
+    [dropDownView animateLeftBottomToStrokeEnd:stoked];
+    [dropDownView animateRightBottomToStrokeEnd:stoked];
+}
 #pragma mark uibuttion action
 -(IBAction)takePhoto:(id)sender{
     [wcameraHelper captureImage];

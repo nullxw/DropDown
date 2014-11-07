@@ -108,7 +108,7 @@ static WCameraImageHelper *sharedInstance = nil;
             [self.session addOutput:movieFileOutput];
             AVCaptureConnection *connection = [movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
             if ([connection isVideoStabilizationSupported])
-                [connection setEnablesVideoStabilizationWhenAvailable:YES];
+                [connection setPreferredVideoStabilizationMode:YES];
             [self setMovieFileOutput:movieFileOutput];
         }
         //set imageOutput

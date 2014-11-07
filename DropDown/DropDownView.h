@@ -18,6 +18,11 @@
 - (void)animateLayerBtoAlpha:(CGFloat)alphaEnd;
 - (void)animateToAlphaEnd:(CGFloat)alphaEnd;
 
+-(void)animateLeftTopToOpcity:(CGFloat)alphaEnd;
+-(void)animateRightTopToOpcity:(CGFloat)alphaEnd;
+-(void)animateLeftBottomToOpcity:(CGFloat)alphaEnd;
+-(void)animateRightBottomToOpcity:(CGFloat)alphaEnd;
+
 -(void)animateLeftTopToStrokeEnd:(CGFloat)strokeEnd;
 -(void)animateRightTopToStrokeEnd:(CGFloat)strokeEnd;
 -(void)animateLeftBottomToStrokeEnd:(CGFloat)strokeEnd;

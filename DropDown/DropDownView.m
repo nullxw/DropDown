@@ -114,9 +114,8 @@
     [aPath closePath];//第四条线通过调用closePath方法得到的
     
     self.squarelayerB.path =aPath.CGPath;
-    [self.layer addSublayer:self.squarelayerB];
     self.squarelayerB.opacity = 0;
-    
+    [self.layer addSublayer:self.squarelayerB];
 }
 
 - (void)addLeftTopLayer
@@ -132,9 +131,9 @@
     [aPath moveToPoint:CGPointMake(161, 5)];
     [aPath addQuadCurveToPoint:CGPointMake(125, 41) controlPoint:CGPointMake(143, 10)];
     
-    self.leftTopLayer.path =aPath.CGPath;
+    self.leftTopLayer.path = aPath.CGPath;
     [self.layer addSublayer:self.leftTopLayer];
-    
+    self.leftTopLayer.opacity = 0;
     [self animateLeftTopToStrokeEnd:0];
 }
 -(void)addRightTopLayer{
@@ -152,6 +151,7 @@
     
     self.rightTopLayer.path =aPath.CGPath;
     [self.layer addSublayer:self.rightTopLayer];
+    self.rightTopLayer.opacity=0;
     [self animateRightTopToStrokeEnd:0];
 }
 
@@ -169,7 +169,7 @@
     
     self.leftBottomLayer.path =aPath.CGPath;
     [self.layer addSublayer:self.leftBottomLayer];
-    
+    self.leftBottomLayer.opacity=0;
     [self animateLeftBottomToStrokeEnd:0];
 }
 
@@ -187,7 +187,7 @@
     
     self.rightBottomLayer.path =aPath.CGPath;
     [self.layer addSublayer:self.rightBottomLayer];
-    
+    self.rightBottomLayer.opacity=0;
     [self animateRightBottomToStrokeEnd:0];
 }
 
@@ -203,29 +203,29 @@
 //set layerA alpha
 - (void)animateLayerAtoAlpha:(CGFloat)alphaEnd
 {
-    POPSpringAnimation *strokeAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerOpacity];
-    strokeAnimation.toValue = @(alphaEnd);
-    strokeAnimation.springBounciness = 12.f;
-    strokeAnimation.removedOnCompletion = NO;
-    [self.squareLayerA pop_addAnimation:strokeAnimation forKey:@"layerStrokeAnimation"];
+    POPSpringAnimation *opacityAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerOpacity];
+    opacityAnimation.toValue = @(alphaEnd);
+    opacityAnimation.springBounciness = 12.f;
+    opacityAnimation.removedOnCompletion = NO;
+    [self.squareLayerA pop_addAnimation:opacityAnimation forKey:@"layerAopacityAnimation"];
 }
 //set layerB alpha
 - (void)animateLayerBtoAlpha:(CGFloat)alphaEnd
 {
-    POPSpringAnimation *strokeAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerOpacity];
-    strokeAnimation.toValue = @(alphaEnd);
-    strokeAnimation.springBounciness = 12.f;
-    strokeAnimation.removedOnCompletion = NO;
-    [self.squarelayerB pop_addAnimation:strokeAnimation forKey:@"layerStrokeAnimation"];
+    POPSpringAnimation *opacityAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerOpacity];
+    opacityAnimation.toValue = @(alphaEnd);
+    opacityAnimation.springBounciness = 12.f;
+    opacityAnimation.removedOnCompletion = NO;
+    [self.squarelayerB pop_addAnimation:opacityAnimation forKey:@"layerBopacityAnimation"];
 }
 //set cricle alpha
 - (void)animateToAlphaEnd:(CGFloat)alphaEnd
 {
-    POPSpringAnimation *strokeAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerOpacity];
-    strokeAnimation.toValue = @(alphaEnd);
-    strokeAnimation.springBounciness = 12.f;
-    strokeAnimation.removedOnCompletion = NO;
-    [self.circleLayer pop_addAnimation:strokeAnimation forKey:@"layerStrokeAnimation"];
+    POPSpringAnimation *opacityAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerOpacity];
+    opacityAnimation.toValue = @(alphaEnd);
+    opacityAnimation.springBounciness = 12.f;
+    opacityAnimation.removedOnCompletion = NO;
+    [self.circleLayer pop_addAnimation:opacityAnimation forKey:@"circleOpacityAnimation"];
 }
 //set LeftTopLayer
 -(void)animateLeftTopToStrokeEnd:(CGFloat)strokeEnd{
@@ -233,7 +233,16 @@
     strokeAnimation.toValue = @(strokeEnd);
     strokeAnimation.springBounciness = 12.f;
     strokeAnimation.removedOnCompletion = NO;
-    [self.leftTopLayer pop_addAnimation:strokeAnimation forKey:@"layerStrokeAnimation"];
+    [self.leftTopLayer pop_addAnimation:strokeAnimation forKey:@"LeftTopStrokeAnimation"];
+}
+
+-(void)animateLeftTopToOpcity:(CGFloat)alphaEnd{
+    POPSpringAnimation *opacityAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerOpacity];
+    opacityAnimation.toValue = @(alphaEnd);
+    opacityAnimation.springBounciness = 12.f;
+    opacityAnimation.removedOnCompletion = NO;
+    [self.leftTopLayer pop_addAnimation:opacityAnimation forKey:@"LeftTopOpacityAnimation"];
+    
 }
 //set RightToplayer
 -(void)animateRightTopToStrokeEnd:(CGFloat)strokeEnd{
@@ -241,7 +250,16 @@
     strokeAnimation.toValue = @(strokeEnd);
     strokeAnimation.springBounciness = 12.f;
     strokeAnimation.removedOnCompletion = NO;
-    [self.rightTopLayer pop_addAnimation:strokeAnimation forKey:@"layerStrokeAnimation"];
+    [self.rightTopLayer pop_addAnimation:strokeAnimation forKey:@"RightTopStrokeAnimation"];
+}
+
+-(void)animateRightTopToOpcity:(CGFloat)alphaEnd{
+    POPSpringAnimation *opacityAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerOpacity];
+    opacityAnimation.toValue = @(alphaEnd);
+    opacityAnimation.springBounciness = 12.f;
+    opacityAnimation.removedOnCompletion = NO;
+    [self.rightTopLayer pop_addAnimation:opacityAnimation forKey:@"RightTopOpacityAnimation"];
+    
 }
 //set LeftBottomlayer
 -(void)animateLeftBottomToStrokeEnd:(CGFloat)strokeEnd{
@@ -249,7 +267,15 @@
     strokeAnimation.toValue = @(strokeEnd);
     strokeAnimation.springBounciness = 12.f;
     strokeAnimation.removedOnCompletion = NO;
-    [self.leftBottomLayer pop_addAnimation:strokeAnimation forKey:@"layerStrokeAnimation"];
+    [self.leftBottomLayer pop_addAnimation:strokeAnimation forKey:@"LeftBomStrokeAnimation"];
+}
+-(void)animateLeftBottomToOpcity:(CGFloat)alphaEnd{
+    POPSpringAnimation *opacityAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerOpacity];
+    opacityAnimation.toValue = @(alphaEnd);
+    opacityAnimation.springBounciness = 12.f;
+    opacityAnimation.removedOnCompletion = NO;
+    [self.leftBottomLayer pop_addAnimation:opacityAnimation forKey:@"LeftBomOpacityAnimation"];
+    
 }
 //set RightBottomlayer
 -(void)animateRightBottomToStrokeEnd:(CGFloat)strokeEnd{
@@ -257,7 +283,14 @@
     strokeAnimation.toValue = @(strokeEnd);
     strokeAnimation.springBounciness = 12.f;
     strokeAnimation.removedOnCompletion = NO;
-    [self.rightBottomLayer pop_addAnimation:strokeAnimation forKey:@"layerStrokeAnimation"];
+    [self.rightBottomLayer pop_addAnimation:strokeAnimation forKey:@"RightBomStrokeAnimation"];
 }
-
+-(void)animateRightBottomToOpcity:(CGFloat)alphaEnd{
+    POPSpringAnimation *opacityAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerOpacity];
+    opacityAnimation.toValue = @(alphaEnd);
+    opacityAnimation.springBounciness = 12.f;
+    opacityAnimation.removedOnCompletion = NO;
+    [self.rightBottomLayer pop_addAnimation:opacityAnimation forKey:@"RightBomOpacityAnimation"];
+    
+}
 @end
