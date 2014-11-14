@@ -75,7 +75,7 @@ static WCameraImageHelper *sharedInstance = nil;
     [self setSessionQueue:sessionQueueA];
     
     self.session = [[AVCaptureSession alloc] init];
-    //  设置采集大小,在视频模式下，此行代码会造成崩溃
+    //This is not supported for video output.
 //    self.session.sessionPreset = AVCaptureSessionPresetPhoto;
     
     dispatch_async(sessionQueue, ^{

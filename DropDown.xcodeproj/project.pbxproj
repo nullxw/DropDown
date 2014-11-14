@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D5E71541A15D77000D5AB06 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D5E71531A15D77000D5AB06 /* AudioToolbox.framework */; };
 		9D8161C01A08A76E00D8CB9F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8161BF1A08A76E00D8CB9F /* main.m */; };
 		9D8161C31A08A76E00D8CB9F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8161C21A08A76E00D8CB9F /* AppDelegate.m */; };
 		9D8161C61A08A76E00D8CB9F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8161C51A08A76E00D8CB9F /* ViewController.m */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		64B05AEAEA634E50BC864F71 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		9D5E71531A15D77000D5AB06 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		9D8161BA1A08A76E00D8CB9F /* DropDown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DropDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D8161BE1A08A76E00D8CB9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D8161BF1A08A76E00D8CB9F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D5E71541A15D77000D5AB06 /* AudioToolbox.framework in Frameworks */,
 				9DB2FA8C1A0B2923009A37FB /* CoreGraphics.framework in Frameworks */,
 				9DB2FA8A1A0B28FD009A37FB /* SystemConfiguration.framework in Frameworks */,
 				9DB2FA881A0B28C6009A37FB /* Foundation.framework in Frameworks */,
@@ -98,6 +101,7 @@
 		9CEF59120E494141A17070B0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D5E71531A15D77000D5AB06 /* AudioToolbox.framework */,
 				9DB2FA8B1A0B2923009A37FB /* CoreGraphics.framework */,
 				9DB2FA891A0B28FD009A37FB /* SystemConfiguration.framework */,
 				9DB2FA871A0B28C6009A37FB /* Foundation.framework */,

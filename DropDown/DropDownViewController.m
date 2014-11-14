@@ -18,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [self tapGestureForFriendInfoView:_cameraPreview];
     [self addDropView];
     [self addCameraPreview];
 }
@@ -47,6 +48,40 @@
         _cameraPreview.hidden=YES;
         _operationView.hidden=YES;
     }];
+}
+#pragma mark
+#pragma mark GestureRecognizer
+-(void)tapGestureForFriendInfoView:(UIView*)touchView{
+    UITapGestureRecognizer *singleTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handlesSingleTap:)];
+    singleTap.numberOfTapsRequired = 1;
+    [touchView setUserInteractionEnabled:YES];
+    [touchView addGestureRecognizer:singleTap];
+    
+    UILongPressGestureRecognizer *longTap =
+    [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                  action:@selector(handleLongTouch:)];
+    longTap.minimumPressDuration = 0.6;
+    [touchView setUserInteractionEnabled:YES];
+    [touchView addGestureRecognizer:longTap];
+    [singleTap requireGestureRecognizerToFail:longTap];
+}
+#pragma mark GestureRecognizer Action
+-(void)handlesSingleTap:(UIGestureRecognizer*)sender{
+    [wcameraHelper captureImage];
+}
+-(void)handleLongTouch:(UILongPressGestureRecognizer*)sender{
+    if(sender.state == UIGestureRecognizerStateBegan)
+    {
+        AudioServicesPlaySystemSound (1113); // SMSReceived (see SystemSoundID below)
+        [wcameraHelper toggleMovieRecording];
+    }
+    else if (sender.state == UIGestureRecognizerStateEnded)
+    {
+        AudioServicesPlaySystemSound (1114); // SMSReceived (see SystemSoundID below)
+        [wcameraHelper stopMoiveRecord];
+    }
 }
 #pragma mark uitableview Delegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
